@@ -66,27 +66,16 @@ public class NumberTriangle {
      * Note: a NumberTriangle contains at least one value.
      */
     public void maxSumPath() {
-        this.root = this.returnMaxSumPath();
+        if (this.isLeaf()) {
+            return;
+        }
+
+        this.left.maxSumPath();
+        this.right.maxSumPath();
+
+        this.root += Math.max(this.left.getRoot(), this.right.getRoot());
         this.left = null;
         this.right = null;
-    }
-
-    private int returnMaxSumPath() {
-        if (this.isLeaf()) {
-            return this.root;
-        }
-
-        int maxLeft = 0;
-        int maxRight = 0;
-
-        if (this.left != null) {
-            maxLeft = this.left.returnMaxSumPath();
-        }
-        if (this.right != null) {
-            maxRight = this.right.returnMaxSumPath();
-        }
-
-        return this.root + Math.max(maxLeft, maxRight);
     }
 
     public boolean isLeaf() {
@@ -190,7 +179,7 @@ public class NumberTriangle {
 
     public static void main(String[] args) throws IOException {
 
-        NumberTriangle mt = NumberTriangle.loadTriangle("input_tree.txt");
+        NumberTriangle mt = NumberTriangle.loadTriangle("massive_triangle.txt");
 
         // [not for credit]
         // you can implement NumberTriangle's maxPathSum method if you want to try to solve
